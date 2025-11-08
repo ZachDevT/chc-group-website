@@ -1,0 +1,148 @@
+.service-detail-page {
+  padding-top: 85px;
+}
+
+.service-detail-hero {
+  background-size: cover;
+  background-position: center;
+  padding: 100px 0 80px;
+  color: var(--text-light);
+  position: relative;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-light);
+  text-decoration: none;
+  margin-bottom: 40px;
+  opacity: 0.9;
+  transition: var(--transition);
+  font-weight: 500;
+}
+
+.back-link:hover {
+  opacity: 1;
+  gap: 12px;
+}
+
+.service-detail-hero-content {
+  max-width: 900px;
+}
+
+.service-detail-content-section {
+  padding: 100px 0;
+  background: var(--bg-primary);
+}
+
+.service-detail-layout {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 60px;
+}
+
+.service-main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.content-block h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+}
+
+.content-block p {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 16px;
+}
+
+.features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.features-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.features-list li svg {
+  color: var(--accent-color);
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.service-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.sidebar-card {
+  background: var(--bg-secondary);
+  border-radius: 20px;
+  padding: 32px;
+  border: 1px solid var(--border-color);
+}
+
+.sidebar-card h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.sidebar-card p {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.services-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.services-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: var(--transition);
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.services-links a:hover {
+  color: var(--accent-color);
+  padding-left: 8px;
+}
+
+@media (max-width: 1024px) {
+  .service-detail-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .service-sidebar {
+    order: -1;
+  }
+}
+
+

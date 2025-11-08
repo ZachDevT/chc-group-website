@@ -1,0 +1,141 @@
+.about {
+  background: var(--bg-primary);
+  padding: 120px 0;
+}
+
+.about-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.about-text {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.about-subtitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.about-description {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+.about-highlight {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--accent-color);
+  line-height: 1.6;
+  padding: 24px;
+  background: rgba(230, 57, 70, 0.05);
+  border-left: 4px solid var(--accent-color);
+  border-radius: 8px;
+  margin-top: 16px;
+}
+
+.about-visual {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.vision-mission {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.vm-card {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 32px;
+  border: 1px solid var(--border-color);
+  transition: var(--transition);
+}
+
+.vm-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--accent-color);
+}
+
+.vm-icon {
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+  color: var(--accent-color);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  background: rgba(230, 57, 70, 0.1);
+}
+
+.vm-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.vm-text {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.about-statement {
+  background: linear-gradient(135deg, var(--accent-color), var(--accent-light));
+  border-radius: 16px;
+  padding: 40px;
+  color: var(--text-light);
+}
+
+.about-statement p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  font-weight: 400;
+}
+
+@media (max-width: 1024px) {
+  .about-content {
+    grid-template-columns: 1fr;
+    gap: 60px;
+  }
+  
+  .vision-mission {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .about {
+    padding: 80px 0;
+  }
+  
+  .about-subtitle {
+    font-size: 1.75rem;
+  }
+  
+  .about-description {
+    font-size: 1rem;
+  }
+  
+  .vm-card {
+    padding: 24px;
+  }
+  
+  .about-statement {
+    padding: 32px 24px;
+  }
+}
+

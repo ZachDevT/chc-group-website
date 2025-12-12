@@ -58,10 +58,10 @@ export const knowledgeBase = {
     },
     {
       id: 'governance',
-      title: 'Gouvernance et citoyenneté',
+      title: 'Gouvernance et genre',
       description: 'Renforcement des institutions',
-      keywords: ['gouvernance', 'citoyenneté', 'institution', 'démocratie', 'droit', 'juridique', 'légal'],
-      details: 'Nous travaillons sur la gouvernance et la citoyenneté, en renforçant les institutions et en promouvant les droits humains. En tant que cabinet de droit congolais, nous appuyons le renforcement des capacités institutionnelles.'
+      keywords: ['gouvernance', 'genre', 'institution', 'démocratie', 'droit', 'juridique', 'légal'],
+      details: 'Nous travaillons sur la gouvernance et le genre, en renforçant les institutions et en promouvant les droits humains. En tant que cabinet de droit congolais, nous appuyons le renforcement des capacités institutionnelles.'
     },
     {
       id: 'ressources',
@@ -306,4 +306,12 @@ CHC Group est basé en République Démocratique du Congo.`
 Posez-moi une question plus précise ou utilisez les questions fréquentes ci-dessous!`
   }
 }
+
+
+
+
+
+
+
+
 

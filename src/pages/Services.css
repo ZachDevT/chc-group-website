@@ -17,7 +17,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: url('https://images.unsplash.com/photo-1552664730-d307ca884978?w=1920&q=80');
+  background: url('/assets/OneDrive_1_19-11-2025/IMG_3999.JPG');
   background-size: cover;
   background-position: center;
   opacity: 0.15;
@@ -187,5 +187,7 @@
     font-size: 2.5rem;
   }
 }
+
+
 
 

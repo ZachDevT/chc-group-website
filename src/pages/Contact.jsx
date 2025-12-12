@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { FiPhone, FiMapPin, FiMail, FiWatch } from 'react-icons/fi'
 import Contact from '../components/Contact'
@@ -7,7 +6,7 @@ import './Contact.css'
 const ContactPage = () => {
   return (
     <div className="contact-page">
-      <motion.section 
+      <motion.section
         className="contact-hero"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -37,7 +36,7 @@ const ContactPage = () => {
             >
               <div className="contact-info-icon"><FiPhone /></div>
               <h3>Téléphone</h3>
-              <p>+243 993983871</p>
+              <p>+243 992 150 129</p>
               <p>Lun - Ven: 8h00 - 18h00</p>
             </motion.div>
             <motion.div
@@ -49,8 +48,8 @@ const ContactPage = () => {
             >
               <div className="contact-info-icon"><FiMail /></div>
               <h3>Email</h3>
-              <p>contact@chcgroup.cd</p>
-              <p>info@chcgroup.cd</p>
+              <p><a href="mailto:contact@chcgroup.cd">contact@chcgroup.cd</a></p>
+              <p><a href="mailto:admin@chc-group.org">admin@chc-group.org</a></p>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 30 }}

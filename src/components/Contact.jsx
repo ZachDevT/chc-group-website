@@ -58,8 +58,8 @@ const Contact = () => {
               <div className="contact-icon"><FiPhone /></div>
               <div>
                 <h3 className="contact-label">Téléphone</h3>
-                <a href="tel:+243993983871" className="contact-value">
-                  +243 993983871
+                <a href="tel:+243992150129" className="contact-value">
+                  +243 992 150 129
                 </a>
               </div>
             </div>
@@ -79,6 +79,10 @@ const Contact = () => {
                 <h3 className="contact-label">Email</h3>
                 <a href="mailto:contact@chcgroup.cd" className="contact-value">
                   contact@chcgroup.cd
+                </a>
+                <br />
+                <a href="mailto:admin@chc-group.org" className="contact-value">
+                  admin@chc-group.org
                 </a>
               </div>
             </div>

@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { FiArrowLeft, FiCheckCircle, FiFileText, FiUsers, FiTarget } from 'react-icons/fi'
+import { FiArrowLeft, FiCheckCircle } from 'react-icons/fi'
 import './ServiceDetail.css'
 
 const ServiceDetail = () => {
@@ -10,7 +10,7 @@ const ServiceDetail = () => {
     'etudes-recherches': {
       title: 'Études et Recherches',
       description: 'Conduite d\'études approfondies et recherches dans les domaines de la sécurité alimentaire, développement des chaînes de valeur, droits humains, et gestion des ressources naturelles.',
-      image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&q=80',
+      image: '/assets/OneDrive_1_19-11-2025/IMG_4018.JPG',
       content: 'Nos services d\'études et recherches couvrent un large éventail de domaines essentiels au développement durable. Nous menons des recherches rigoureuses qui éclairent les décisions stratégiques et orientent les actions concrètes.',
       features: [
         'Recherche-action participative',
@@ -26,7 +26,7 @@ const ServiceDetail = () => {
     'cooperation-internationale': {
       title: 'Coopération internationale',
       description: 'Facilitation de partenariats entre acteurs nationaux et internationaux pour l\'adoption de solutions concrètes et durables.',
-      image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1200&q=80',
+      image: '/assets/OneDrive_1_19-11-2025/IMG_4007.JPG',
       content: 'Nous facilitons la création et le renforcement de partenariats stratégiques entre organisations locales et internationales, favorisant l\'échange de connaissances et le développement de solutions adaptées.',
       features: [
         'Mise en réseau d\'acteurs',
@@ -42,7 +42,7 @@ const ServiceDetail = () => {
     'gestion-projets': {
       title: 'Gestion des projets/Programmes',
       description: 'Conception, exécution, suivi-évaluation et accompagnement de projets/programmes multisectoriels avec gestion objective et apprentissage continu.',
-      image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&q=80',
+      image: '/assets/OneDrive_1_19-11-2025/IMG_3998.JPG',
       content: 'Nous accompagnons vos projets de la conception à la capitalisation, en garantissant une gestion rigoureuse, transparente et orientée résultats.',
       features: [
         'Conception de projets',
@@ -58,7 +58,7 @@ const ServiceDetail = () => {
     'formations-coaching': {
       title: 'Formations et Coaching',
       description: 'Programmes de formation et coaching pour renforcer les capacités et compétences des partenaires et bénéficiaires.',
-      image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&q=80',
+      image: '/assets/OneDrive_1_19-11-2025/IMG_4056.JPG',
       content: 'Nous développons les compétences de vos équipes à travers des programmes de formation sur mesure et un accompagnement personnalisé.',
       features: [
         'Formation sur mesure',
@@ -74,7 +74,7 @@ const ServiceDetail = () => {
     'achats-performances': {
       title: 'Achats de performances',
       description: 'Services d\'achats de performances pour optimiser les résultats et l\'efficacité des projets et programmes.',
-      image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1200&q=80',
+      image: '/assets/OneDrive_1_19-11-2025/IMG_4041.JPG',
       content: 'Nous optimisons vos investissements en liant les paiements aux résultats obtenus, garantissant une meilleure efficacité et un impact réel.',
       features: [
         'Optimisation des résultats',
@@ -153,7 +153,7 @@ const ServiceDetail = () => {
               className="service-sidebar"
             >
               <div className="sidebar-card">
-                <h3>Besoin d'aide ?</h3>
+                <h3>Besoin d&rsquo;aide ?</h3>
                 <p>Contactez-nous pour discuter de votre projet</p>
                 <Link to="/contact" className="btn btn-primary">
                   Nous contacter
@@ -180,5 +180,7 @@ const ServiceDetail = () => {
 }
 
 export default ServiceDetail
+
+
 
 

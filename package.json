@@ -7,13 +7,17 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0"
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "seed:categories": "node scripts/seedCategories.js"
   },
   "dependencies": {
+    "browser-image-compression": "^2.0.2",
+    "firebase": "^12.6.0",
     "framer-motion": "^10.16.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.12.0",
+    "react-quill": "^2.0.0",
     "react-router-dom": "^6.20.0"
   },
   "devDependencies": {

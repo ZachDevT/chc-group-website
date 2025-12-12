@@ -1,131 +1,160 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { FiFacebook, FiTwitter, FiLinkedin, FiInstagram, FiYoutube, FiSearch } from 'react-icons/fi'
 import './Hero.css'
 
 const Hero = () => {
-  const [currentImage, setCurrentImage] = useState(0)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
-  const heroImages = [
-    {
-      url: 'https://images.pexels.com/photos/6077296/pexels-photo-6077296.jpeg?_gl=1*1fdw4jn*_ga*MTIxODE0NDA0OS4xNzYyNTc4MDk0*_ga_8JE65Q40S6*czE3NjI1NzgwOTQkbzEkZzEkdDE3NjI1NzgxMDYkajQ4JGwwJGgw',
-      title: 'Ensemble pour forger notre horizon',
-      subtitle: 'Solutions innovantes pour un développement durable'
-    },
-    {
-      url: 'https://images.pexels.com/photos/1181516/pexels-photo-1181516.jpeg?auto=compress&cs=tinysrgb&w=1920',
-      title: 'Expertise pluridisciplinaire',
-      subtitle: 'Conception, suivi-évaluation et accompagnement de projets'
-    },
-    {
-      url: 'https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1920',
-      title: 'Partenaires de confiance',
-      subtitle: 'Orientation vers des solutions concrètes pour l\'éradication de l\'extrême pauvreté'
-    },
-    {
-      url: 'https://images.pexels.com/photos/3184419/pexels-photo-3184419.jpeg?auto=compress&cs=tinysrgb&w=1920',
-      title: 'Recherche-action participative',
-      subtitle: 'À l\'avant-garde du développement durable'
-    }
+  const images = [
+    '/assets/newHeros/finalhero.jpg',
+    '/assets/newHeros/Okapi.png',
+    '/assets/newHeros/leopard.jpg'
   ]
 
+  const socialLinks = [
+    { icon: <FiFacebook />, url: 'https://www.facebook.com/share/1DAe4TC8H8/?mibextid=wwXIfr', label: 'Facebook' },
+    { icon: <FiTwitter />, url: 'https://twitter.com', label: 'Twitter' },
+    { icon: <FiLinkedin />, url: 'https://www.linkedin.com/company/congo-horizon-challenges-chc/', label: 'LinkedIn' },
+    { icon: <FiInstagram />, url: 'https://www.instagram.com/congo_horizon_challenges_?igsh=YjQ5OWg4aWxlMm93&utm_source=qr', label: 'Instagram' },
+    { icon: <FiYoutube />, url: 'https://youtube.com', label: 'YouTube' }
+  ]
+
+  // Auto-rotate images every 3 seconds
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImage((prev) => (prev + 1) % heroImages.length)
-    }, 5000)
-    return () => clearInterval(interval)
-  }, [heroImages.length])
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length)
+    }, 3000)
 
-  const goToImage = (index) => {
-    setCurrentImage(index)
-  }
+    return () => clearInterval(interval)
+  }, [images.length])
 
   return (
     <section className="hero">
-      <div className="hero-slider">
-        <AnimatePresence mode="wait">
+      <div className="hero-container">
+        {/* Left Content Section */}
+        <motion.div
+          className="hero-content-left"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+        >
           <motion.div
-            key={currentImage}
-            initial={{ opacity: 0, scale: 1.1 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-            className="hero-slide"
-            style={{
-              backgroundImage: `linear-gradient(135deg, rgba(26, 26, 26, 0.7) 0%, rgba(26, 26, 26, 0.5) 100%), url(${heroImages[currentImage].url})`
-            }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.8 }}
           >
-            <div className="hero-content">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.8 }}
-                className="hero-accent"
-              >
-                <div className="accent-l"></div>
-              </motion.div>
-              <motion.h1
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.8 }}
-                className="hero-title"
-              >
-                {heroImages[currentImage].title}
-              </motion.h1>
-              <motion.p
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.8 }}
-                className="hero-subtitle"
-              >
-                {heroImages[currentImage].subtitle}
-              </motion.p>
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6, duration: 0.8 }}
-                className="hero-actions"
-              >
-                <a href="#services" className="btn btn-primary">
-                  Nos Services
-                </a>
-                <a href="#about" className="btn btn-secondary">
-                  En savoir plus
-                </a>
-              </motion.div>
+            <h1 className="hero-title">
+              <span className="hero-title-main">Congo Horizon</span>
+              <span className="hero-title-sub">Challenges</span>
+              <span className="hero-title-abbr">CHC</span>
+            </h1>
+          </motion.div>
+
+          <motion.p
+            className="hero-slogan"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+          >
+            Ensemble pour forger notre horizon
+          </motion.p>
+
+          <motion.p
+            className="hero-description"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+          >
+            Nous sommes une organisation dédiée au développement durable et à l'innovation
+            en République Démocratique du Congo. Notre mission est de créer des opportunités,
+            de renforcer les capacités et de bâtir un avenir meilleur pour tous.
+          </motion.p>
+
+          <motion.div
+            className="hero-search-container"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.8 }}
+          >
+            <div className="hero-search-wrapper">
+              <FiSearch className="hero-search-icon" />
+              <input
+                type="text"
+                className="hero-search-input"
+                placeholder="Découvrez nos services..."
+                readOnly
+              />
+              <button className="hero-search-btn">Rechercher</button>
             </div>
           </motion.div>
-        </AnimatePresence>
+        </motion.div>
 
-        <div className="hero-indicators">
-          {heroImages.map((_, index) => (
-            <button
+        {/* Right Image Section with Complex Shapes */}
+        <motion.div
+          className="hero-image-section"
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <div className="hero-image-container">
+            {/* Decorative shapes */}
+            <div className="hero-shape hero-shape-1"></div>
+            <div className="hero-shape hero-shape-2"></div>
+            <div className="hero-shape hero-shape-3"></div>
+
+            {/* Image carousel with complex shape frame */}
+            <div className="hero-image-frame">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentImageIndex}
+                  className="hero-image-wrapper"
+                  initial={{ opacity: 0, scale: 1.1 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.7 }}
+                >
+                  <img
+                    src={images[currentImageIndex]}
+                    alt={`Congo Horizon Challenges ${currentImageIndex + 1}`}
+                    className="hero-image"
+                  />
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Image indicators */}
+            <div className="hero-image-indicators">
+              {images.map((_, index) => (
+                <button
+                  key={index}
+                  className={`hero-indicator ${currentImageIndex === index ? 'active' : ''}`}
+                  onClick={() => setCurrentImageIndex(index)}
+                  aria-label={`View image ${index + 1}`}
+                />
+              ))}
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Social Links */}
+        <div className="hero-social-links">
+          {socialLinks.map((social, index) => (
+            <motion.a
               key={index}
-              className={`indicator ${currentImage === index ? 'active' : ''}`}
-              onClick={() => goToImage(index)}
-              aria-label={`Go to slide ${index + 1}`}
-            />
+              href={social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hero-social-link"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.5 + index * 0.1, duration: 0.8 }}
+              whileHover={{ x: -5, scale: 1.1 }}
+              aria-label={social.label}
+            >
+              {social.icon}
+            </motion.a>
           ))}
-        </div>
-
-        <div className="hero-nav">
-          <button
-            className="hero-nav-btn prev"
-            onClick={() => setCurrentImage((prev) => (prev - 1 + heroImages.length) % heroImages.length)}
-            aria-label="Previous slide"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M15 18l-6-6 6-6" />
-            </svg>
-          </button>
-          <button
-            className="hero-nav-btn next"
-            onClick={() => setCurrentImage((prev) => (prev + 1) % heroImages.length)}
-            aria-label="Next slide"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M9 18l6-6-6-6" />
-            </svg>
-          </button>
         </div>
       </div>
     </section>

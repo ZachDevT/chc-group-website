@@ -1,31 +1,62 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiMessageSquare, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
+import { collection, getDocs, query, orderBy } from 'firebase/firestore'
+import { db } from '../firebase/config'
 import './Testimonials.css'
 
 const Testimonials = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [testimonials, setTestimonials] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
 
-  const testimonials = [
-    {
-      name: 'Dr. Jean Mukamba',
-      role: 'Directeur, Organisation Partenaire',
-      content: 'CHC Group a transformé notre approche de gestion de projets. Leur expertise et leur professionnalisme sont remarquables. Nous avons vu des résultats concrets dans tous nos programmes.',
-      image: 'https://images.pexels.com/photos/1181519/pexels-photo-1181519.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop'
-    },
-    {
-      name: 'Marie Kabila',
-      role: 'Coordinatrice de Programme',
-      content: 'L\'équipe de CHC Group comprend vraiment les défis du développement. Leur approche participative et leurs solutions innovantes ont fait une différence significative dans nos communautés.',
-      image: 'https://images.pexels.com/photos/1181690/pexels-photo-1181690.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop'
-    },
-    {
-      name: 'Pierre Mutombo',
-      role: 'Chef de Projet International',
-      content: 'Travailler avec CHC Group a été une expérience exceptionnelle. Leur capacité à combiner recherche rigoureuse et action pratique est ce qui les distingue dans le secteur.',
-      image: 'https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop'
+  useEffect(() => {
+    fetchTestimonials()
+  }, [])
+
+  const fetchTestimonials = async () => {
+    try {
+      setLoading(true)
+      const q = query(collection(db, 'testimonials'), orderBy('order', 'asc'))
+      const querySnapshot = await getDocs(q)
+      const testimonialsData = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }))
+      setTestimonials(testimonialsData)
+      setError('')
+    } catch (err) {
+      console.error('Error fetching testimonials:', err)
+      setError('Erreur lors du chargement des témoignages')
+      // Fallback to default testimonials if Firebase fails
+      setTestimonials([
+        {
+          id: '1',
+          name: 'Dr. Jean Mukamba',
+          role: 'Directeur, Organisation Partenaire',
+          content: 'CHC Group a transformé notre approche de gestion de projets. Leur expertise et leur professionnalisme sont remarquables. Nous avons vu des résultats concrets dans tous nos programmes.',
+          image: '/assets/team/Photo profil_Germain.png'
+        },
+        {
+          id: '2',
+          name: 'Marie Kabila',
+          role: 'Coordinatrice de Programme',
+          content: 'L\'équipe de CHC Group comprend vraiment les défis du développement. Leur approche participative et leurs solutions innovantes ont fait une différence significative dans nos communautés.',
+          image: '/assets/team/Photo profil_Huguette.png'
+        },
+        {
+          id: '3',
+          name: 'Pierre Mutombo',
+          role: 'Chef de Projet International',
+          content: 'Travailler avec CHC Group a été une expérience exceptionnelle. Leur capacité à combiner recherche rigoureuse et action pratique est ce qui les distingue dans le secteur.',
+          image: '/assets/team/Photo profil_Alex.png'
+        }
+      ])
+    } finally {
+      setLoading(false)
     }
-  ]
+  }
 
   const nextTestimonial = () => {
     setCurrentIndex((prev) => (prev + 1) % testimonials.length)
@@ -33,6 +64,20 @@ const Testimonials = () => {
 
   const prevTestimonial = () => {
     setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length)
+  }
+
+  if (loading) {
+    return (
+      <section className="testimonials">
+        <div className="container">
+          <div className="testimonials-loading">Chargement des témoignages...</div>
+        </div>
+      </section>
+    )
+  }
+
+  if (testimonials.length === 0) {
+    return null // Don't show section if no testimonials
   }
 
   return (
@@ -66,8 +111,8 @@ const Testimonials = () => {
               </div>
               <p className="testimonial-content">{testimonials[currentIndex].content}</p>
               <div className="testimonial-author">
-                <img 
-                  src={testimonials[currentIndex].image} 
+                <img
+                  src={testimonials[currentIndex].image}
                   alt={testimonials[currentIndex].name}
                   className="testimonial-avatar"
                 />
@@ -104,4 +149,5 @@ const Testimonials = () => {
 }
 
 export default Testimonials
+
 

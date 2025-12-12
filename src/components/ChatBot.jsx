@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FiX, FiSend, FiLoader, FiMessageSquare } from 'react-icons/fi'
-import { RiRobot2Fill, RiRobotLine } from 'react-icons/ri'
+import { FiX, FiSend, FiLoader } from 'react-icons/fi'
+import { RiRobot2Fill } from 'react-icons/ri'
 import { findBestMatch, knowledgeBase } from '../utils/chatbotKnowledge'
 import './ChatBot.css'
 

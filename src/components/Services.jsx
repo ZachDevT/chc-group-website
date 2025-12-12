@@ -8,40 +8,40 @@ const Services = () => {
     {
       icon: <FiFileText />,
       title: 'Études et Recherches',
-      description: 'Conduite d\'études approfondies et recherches dans les domaines de la sécurité alimentaire, développement des chaînes de valeur, droits humains, et gestion des ressources naturelles.',
-      image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80',
+      description: 'Notre service d\'études et de recherches se concentre sur la collecte et l\'analyse approfondie des données quantitatives et qualitatives pour fournir des informations fiables et précises à nos clients/partenaires. Nous réalisons des études de marché, des analyses sectorielles, le suivi-évaluation intégré, et des recherches spécifiques pour soutenir la prise de décision stratégique et une gestion axée sur les résultats.',
+      image: '/assets/OneDrive_1_19-11-2025/IMG_4018.JPG',
       link: '/services/etudes-recherches',
       color: '#3b82f6'
     },
     {
       icon: <FiGlobe />,
       title: 'Coopération internationale',
-      description: 'Facilitation de partenariats entre acteurs nationaux et internationaux pour l\'adoption de solutions concrètes et durables.',
-      image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=800&q=80',
+      description: 'Nous accompagnons les entreprises et les organisations dans leurs projets de coopération internationale. Que ce soit pour l\'expansion dans de nouveaux marchés, la création de partenariats stratégiques ou la gestion des relations internationales, la représentation dans les réseaux pertinents du pays, fournir des informations (situation politique, économique, culturelle, ecclésiale, possibilités de coopération) à jour sur le pays, notre équipe d\'experts vous guide à chaque étape.',
+      image: '/assets/OneDrive_1_19-11-2025/IMG_4007.JPG',
       link: '/services/cooperation-internationale',
       color: '#10b981'
     },
     {
       icon: <FiBriefcase />,
       title: 'Gestion des projets/Programmes',
-      description: 'Conception, exécution, suivi-évaluation et accompagnement de projets/programmes multisectoriels avec gestion objective et apprentissage continu.',
-      image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80',
+      description: 'Dans le cadre de la gestion de projets/programmes, nous vous assistons dans toutes les phases, de la planification à l\'exécution, en veillant à ce que chaque étape soit optimisée pour maximiser les résultats et la durabilité. Nous garantissons un dialogue avec entre parties prenantes dans le projet/programme. Notre équipe d\'experts s\'emploie également à soutenir votre communication et y collaborer (sensibilisation, campagnes, recherche des fonds).',
+      image: '/assets/OneDrive_1_19-11-2025/IMG_3998.JPG',
       link: '/services/gestion-projets',
       color: '#f59e0b'
     },
     {
       icon: <FiBookOpen />,
       title: 'Formations et Coaching',
-      description: 'Programmes de formation et coaching pour renforcer les capacités et compétences des partenaires et bénéficiaires.',
-      image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80',
+      description: 'Nos programmes de formation et de coaching sont conçus pour renforcer les compétences des dirigeants, des équipes de mise en œuvre et des collaborateurs. Nous offrons des solutions sur mesure, adaptées aux besoins spécifiques de chaque organisation.',
+      image: '/assets/OneDrive_1_19-11-2025/IMG_4056.JPG',
       link: '/services/formations-coaching',
       color: '#8b5cf6'
     },
     {
       icon: <FiZap />,
       title: 'Achats de performances',
-      description: 'Services d\'achats de performances pour optimiser les résultats et l\'efficacité des projets et programmes.',
-      image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&q=80',
+      description: 'Nous offrons également des services spécialisés pour l\'achat des performances, permettant à nos clients de garantir un rendement optimal dans leurs processus d\'acquisition de biens et services. Nous mettons l\'accent sur la transparence, l\'efficacité, et la conformité aux normes de qualité édictées.',
+      image: '/assets/OneDrive_1_19-11-2025/IMG_4041.JPG',
       link: '/services/achats-performances',
       color: '#ef4444'
     }

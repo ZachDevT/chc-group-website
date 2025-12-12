@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   FiChevronDown, 
@@ -14,7 +14,6 @@ import {
   FiTarget,
   FiTrendingUp,
   FiShield,
-  FiAward,
   FiBarChart2,
   FiZap,
   FiSun,
@@ -31,6 +30,11 @@ const Header = () => {
   const [hoveredMenu, setHoveredMenu] = useState(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const location = useLocation()
+  const navigate = useNavigate()
+
+  const handleSearchClick = () => {
+    navigate('/blog?search=true')
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -128,7 +132,7 @@ const Header = () => {
       },
       {
         icon: <FiShield />,
-        title: 'Gouvernance et citoyenneté',
+        title: 'Gouvernance et genre',
         description: 'Renforcement des institutions',
         link: '/sectors#governance',
         color: '#3b82f6'
@@ -280,7 +284,7 @@ const Header = () => {
         </nav>
 
         <div className="header-actions">
-          <button className="header-search" aria-label="Search">
+          <button className="header-search" onClick={handleSearchClick} aria-label="Search">
             <FiSearch />
           </button>
           <button

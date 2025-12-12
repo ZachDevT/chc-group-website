@@ -12,9 +12,9 @@ const Stats = () => {
     },
     {
       icon: <FiMapPin />,
-      number: '12',
-      label: 'Bureaux',
-      description: 'À travers le monde'
+      number: '6',
+      label: 'Secteurs clés',
+      description: 'Agroécologie, gouvernance, ESS, marchés, ressources, conflits'
     },
     {
       icon: <FiTrendingUp />,
@@ -84,5 +84,7 @@ const Stats = () => {
 }
 
 export default Stats
+
+
 
 

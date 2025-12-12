@@ -1,6 +1,4 @@
 import { motion } from 'framer-motion'
-import { Link } from 'react-router-dom'
-import { FiSun, FiShield, FiTrendingUp, FiBarChart2, FiUsers, FiTarget, FiArrowRight } from 'react-icons/fi'
 import Sectors from '../components/Sectors'
 import './Sectors.css'
 
@@ -15,9 +13,9 @@ const SectorsPage = () => {
       >
         <div className="container">
           <div className="sectors-hero-content">
-            <h1 className="page-title">Nos Secteurs d'Activités</h1>
+            <h1 className="page-title">Nos Secteurs d&rsquo;Activités</h1>
             <p className="page-subtitle">
-              Des domaines d'expertise variés pour répondre aux défis du développement durable
+              Des domaines d&rsquo;expertise variés pour répondre aux défis du développement durable
             </p>
           </div>
         </div>

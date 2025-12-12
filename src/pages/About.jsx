@@ -1,16 +1,20 @@
 import { motion } from 'framer-motion'
-import { Link } from 'react-router-dom'
-import { FiArrowRight, FiEye, FiTarget, FiUsers, FiAward, FiTrendingUp } from 'react-icons/fi'
+import { FiUsers, FiAward, FiTrendingUp } from 'react-icons/fi'
 import AboutSection from '../components/About'
 import Values from '../components/Values'
 import Team from '../components/Team'
 import Stats from '../components/Stats'
 import CTA from '../components/CTA'
+import SEO from '../components/SEO.jsx'
 import './About.css'
 
 const AboutPage = () => {
   return (
     <div className="about-page">
+      <SEO
+        title="À propos"
+        description="Découvrez CHC Group, un cabinet de droit congolais spécialisé dans la conception et le suivi-évaluation de projets/programmes multisectoriels. Notre vision, mission et valeurs."
+      />
       <motion.section 
         className="about-hero"
         initial={{ opacity: 0 }}

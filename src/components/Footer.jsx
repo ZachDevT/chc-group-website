@@ -1,8 +1,26 @@
 import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
+import { useRealtimeCollection } from '../hooks/useRealtimeCollection.js'
 import './Footer.css'
+
+const fallbackImages = [
+  { id: 'od-3996', image: '/assets/OneDrive_1_19-11-2025/IMG_3996.JPG' },
+  { id: 'od-3999', image: '/assets/OneDrive_1_19-11-2025/IMG_3999.JPG' },
+  { id: 'od-4004', image: '/assets/OneDrive_1_19-11-2025/IMG_4004.JPG' },
+  { id: 'od-4014', image: '/assets/OneDrive_1_19-11-2025/IMG_4014.JPG' },
+  { id: 'od-4024', image: '/assets/OneDrive_1_19-11-2025/IMG_4024.JPG' },
+  { id: 'od-4035', image: '/assets/OneDrive_1_19-11-2025/IMG_4035.JPG' },
+  { id: 'od-4045', image: '/assets/OneDrive_1_19-11-2025/IMG_4045.JPG' },
+  { id: 'od-4056', image: '/assets/OneDrive_1_19-11-2025/IMG_4056.JPG' },
+  { id: 'od-4018', image: '/assets/OneDrive_1_19-11-2025/IMG_4018.JPG' }
+]
+
+const resolveUrl = (item) => item.image || item.url
 
 const Footer = () => {
   const currentYear = new Date().getFullYear()
+  const { data: remoteImages } = useRealtimeCollection('gallery', { orderByField: 'createdAt' })
+  const galleryImages = remoteImages.length > 0 ? remoteImages.slice(0, 9) : fallbackImages.slice(0, 9)
 
   return (
     <footer className="footer">
@@ -59,11 +77,38 @@ const Footer = () => {
               <h4 className="footer-title">Contact</h4>
               <ul className="footer-list">
                 <li>+243 993983871</li>
-                <li>contact@chcgroup.cd</li>
+                <li><a href="mailto:contact@chcgroup.cd">contact@chcgroup.cd</a></li>
+                <li><a href="mailto:admin@chc-group.org">admin@chc-group.org</a></li>
                 <li>Kinshasa, RD. Congo</li>
                 <li>Commune de la Gombe</li>
               </ul>
             </div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+              className="footer-column footer-gallery-column"
+            >
+              <h4 className="footer-title">Galerie Photo</h4>
+              <div className="footer-gallery-grid">
+                {galleryImages.map((image, index) => (
+                  <Link
+                    key={image.id || index}
+                    to="/gallery"
+                    className="footer-gallery-item"
+                  >
+                    <img 
+                      src={resolveUrl(image)} 
+                      alt={image.title || 'Galerie CHC'} 
+                      onError={(e) => {
+                        e.target.src = '/assets/OneDrive_1_19-11-2025/IMG_3996.JPG'
+                      }}
+                    />
+                  </Link>
+                ))}
+              </div>
+            </motion.div>
           </motion.div>
         </div>
 

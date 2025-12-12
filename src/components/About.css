@@ -3,6 +3,26 @@
   padding: 120px 0;
 }
 
+.about-historical {
+  background: var(--bg-secondary);
+  border-radius: 32px;
+  padding: 32px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 48px;
+}
+
+.about-historical h3 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+}
+
+.about-historical p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
 .about-content {
   display: grid;
   grid-template-columns: 1fr 1fr;

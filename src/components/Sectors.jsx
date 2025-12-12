@@ -14,7 +14,7 @@ const Sectors = () => {
     },
     {
       icon: <FiShield />,
-      title: 'Gouvernance et citoyenneté',
+      title: 'Gouvernance et genre',
       description: 'Renforcement des institutions et promotion de la participation citoyenne pour une gouvernance efficace.',
       color: '#3b82f6',
       link: '/sectors#governance'
@@ -81,9 +81,9 @@ const Sectors = () => {
           transition={{ duration: 0.8 }}
           className="section-header"
         >
-          <h2 className="section-title">Nos Secteurs d'Activités</h2>
+          <h2 className="section-title">Nos Secteurs d&rsquo;Activités</h2>
           <p className="section-subtitle">
-            Des domaines d'expertise variés pour répondre aux défis du développement durable
+            Des domaines d&rsquo;expertise variés pour répondre aux défis du développement durable
           </p>
         </motion.div>
 

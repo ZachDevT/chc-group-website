@@ -1,0 +1,198 @@
+.recruitment-page {
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
+
+.recruitment-hero {
+  background: linear-gradient(135deg, rgba(15, 144, 136, 0.1), rgba(15, 144, 136, 0.05));
+  padding: 120px 0 80px;
+  margin-top: 85px;
+}
+
+.recruitment-hero-content {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.recruitment-content {
+  padding: 80px 0 120px;
+}
+
+.recruitment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  gap: 40px;
+  margin-top: 60px;
+}
+
+.recruitment-card {
+  background: var(--bg-primary);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+}
+
+.recruitment-card:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: var(--accent-color);
+}
+
+.recruitment-card-header {
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.recruitment-job-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 16px 0;
+}
+
+.recruitment-job-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.recruitment-job-meta span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.recruitment-card-body {
+  flex: 1;
+  margin-bottom: 24px;
+}
+
+.recruitment-section {
+  margin-bottom: 24px;
+}
+
+.recruitment-section:last-child {
+  margin-bottom: 0;
+}
+
+.recruitment-section h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 12px 0;
+}
+
+.recruitment-section p {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.recruitment-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.recruitment-section ul li {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  padding-left: 24px;
+  position: relative;
+}
+
+.recruitment-section ul li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--accent-color);
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.recruitment-card-footer {
+  padding-top: 24px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.recruitment-job-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.recruitment-job-details span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.recruitment-empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--text-secondary);
+}
+
+.recruitment-empty-state h3 {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  margin: 0 0 12px 0;
+}
+
+.recruitment-empty-state p {
+  font-size: 1rem;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .recruitment-hero {
+    padding: 80px 0 60px;
+  }
+
+  .recruitment-content {
+    padding: 60px 0 80px;
+  }
+
+  .recruitment-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .recruitment-card {
+    padding: 24px;
+  }
+
+  .recruitment-card-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .recruitment-card-footer .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+
+
+
+

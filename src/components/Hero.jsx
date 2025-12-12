@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FiFacebook, FiTwitter, FiLinkedin, FiInstagram, FiYoutube, FiSearch } from 'react-icons/fi'
+import { FiSearch } from 'react-icons/fi'
 import './Hero.css'
 
 const Hero = () => {
@@ -12,13 +12,7 @@ const Hero = () => {
     '/assets/newHeros/leopard.jpg'
   ]
 
-  const socialLinks = [
-    { icon: <FiFacebook />, url: 'https://www.facebook.com/share/1DAe4TC8H8/?mibextid=wwXIfr', label: 'Facebook' },
-    { icon: <FiTwitter />, url: 'https://twitter.com', label: 'Twitter' },
-    { icon: <FiLinkedin />, url: 'https://www.linkedin.com/company/congo-horizon-challenges-chc/', label: 'LinkedIn' },
-    { icon: <FiInstagram />, url: 'https://www.instagram.com/congo_horizon_challenges_?igsh=YjQ5OWg4aWxlMm93&utm_source=qr', label: 'Instagram' },
-    { icon: <FiYoutube />, url: 'https://youtube.com', label: 'YouTube' }
-  ]
+
 
   // Auto-rotate images every 3 seconds
   useEffect(() => {
@@ -47,18 +41,17 @@ const Hero = () => {
             <h1 className="hero-title">
               <span className="hero-title-main">Congo Horizon</span>
               <span className="hero-title-sub">Challenges</span>
-              <span className="hero-title-abbr">CHC</span>
             </h1>
           </motion.div>
 
-          <motion.p
-            className="hero-slogan"
+          <motion.div
+            className="hero-slogan-container"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
           >
-            Ensemble pour forger notre horizon
-          </motion.p>
+            <p className="hero-slogan">Ensemble pour forger notre horizon</p>
+          </motion.div>
 
           <motion.p
             className="hero-description"
@@ -67,8 +60,7 @@ const Hero = () => {
             transition={{ delay: 0.6, duration: 0.8 }}
           >
             Nous sommes une organisation dédiée au développement durable et à l'innovation
-            en République Démocratique du Congo. Notre mission est de créer des opportunités,
-            de renforcer les capacités et de bâtir un avenir meilleur pour tous.
+            en République Démocratique du Congo.
           </motion.p>
 
           <motion.div
@@ -82,7 +74,7 @@ const Hero = () => {
               <input
                 type="text"
                 className="hero-search-input"
-                placeholder="Découvrez nos services..."
+                placeholder="Découvrez nos services et projets..."
                 readOnly
               />
               <button className="hero-search-btn">Rechercher</button>
@@ -137,25 +129,7 @@ const Hero = () => {
           </div>
         </motion.div>
 
-        {/* Social Links */}
-        <div className="hero-social-links">
-          {socialLinks.map((social, index) => (
-            <motion.a
-              key={index}
-              href={social.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hero-social-link"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.5 + index * 0.1, duration: 0.8 }}
-              whileHover={{ x: -5, scale: 1.1 }}
-              aria-label={social.label}
-            >
-              {social.icon}
-            </motion.a>
-          ))}
-        </div>
+
       </div>
     </section>
   )

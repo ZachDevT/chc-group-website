@@ -11,6 +11,13 @@ import {
 import { db } from '../firebase/config'
 import { slugify } from '../utils/slugify'
 
+const normalizeExternalUrl = (value) => {
+  if (typeof value !== 'string') return ''
+  const trimmed = value.trim()
+  if (!trimmed) return ''
+  return /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`
+}
+
 export const createBlogPost = async (payload) => {
   const postsRef = collection(db, 'blogPosts')
   const docPayload = {
@@ -66,6 +73,50 @@ export const createGalleryItem = async (payload) => {
 
 export const deleteGalleryItem = async (id) => {
   await deleteDoc(doc(db, 'gallery', id))
+}
+
+export const createDocumentItem = async (payload) => {
+  const docsRef = collection(db, 'documents')
+  let fileData = {}
+
+  if (payload.sourceType === 'link') {
+    const externalUrl = normalizeExternalUrl(payload.externalUrl)
+    if (!externalUrl) {
+      throw new Error('Veuillez fournir un lien partagé valide pour ce document.')
+    }
+
+    fileData = {
+      sourceType: 'link',
+      externalUrl,
+      fileName: payload.fileName || '',
+      fileType: 'external-link',
+      fileSize: null
+    }
+  } else if (payload.fileDataUrl) {
+    fileData = {
+      sourceType: 'upload',
+      file: payload.fileDataUrl,
+      fileName: payload.fileName || '',
+      fileType: payload.fileType || '',
+      fileSize: payload.fileSize || null
+    }
+  } else {
+    throw new Error('Veuillez fournir un fichier ou un lien de document.')
+  }
+
+  const docRef = await addDoc(docsRef, {
+    title: payload.title,
+    category: payload.category,
+    description: payload.description || '',
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+    ...fileData
+  })
+  return docRef.id
+}
+
+export const deleteDocumentItem = async (id) => {
+  await deleteDoc(doc(db, 'documents', id))
 }
 
 export const createAuthor = async (payload) => {
@@ -145,6 +196,3 @@ export const updateJobOffer = async (id, updates) => {
 export const deleteJobOffer = async (id) => {
   await deleteDoc(doc(db, 'jobOffers', id))
 }
-
-
-

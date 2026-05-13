@@ -11,7 +11,7 @@ import ServiceDetail from './pages/ServiceDetail'
 import Sectors from './pages/Sectors'
 import Blog from './pages/Blog'
 import BlogPost from './pages/BlogPost'
-import Gallery from './pages/Gallery'
+import Resources from './pages/Resources'
 import Contact from './pages/Contact'
 import Team from './pages/Team'
 import Partners from './pages/Partners'
@@ -23,6 +23,7 @@ import AdminBlog from './pages/admin/AdminBlog.jsx'
 import AdminCategories from './pages/admin/AdminCategories.jsx'
 import AdminPartners from './pages/admin/AdminPartners.jsx'
 import AdminGallery from './pages/admin/AdminGallery.jsx'
+import AdminDocuments from './pages/admin/AdminDocuments.jsx'
 import AdminTeam from './pages/admin/AdminTeam.jsx'
 import AdminRecruitment from './pages/admin/AdminRecruitment.jsx'
 import AdminTestimonials from './pages/admin/AdminTestimonials.jsx'
@@ -71,7 +72,7 @@ function App() {
             <Route path="/sectors" element={<Sectors />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
-            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/resources" element={<Resources />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/team" element={<Team />} />
             <Route path="/partners" element={<Partners />} />
@@ -92,6 +93,7 @@ function App() {
             <Route path="categories" element={<AdminCategories />} />
             <Route path="partners" element={<AdminPartners />} />
             <Route path="gallery" element={<AdminGallery />} />
+            <Route path="documents" element={<AdminDocuments />} />
             <Route path="team" element={<AdminTeam />} />
             <Route path="testimonials" element={<AdminTestimonials />} />
             <Route path="recruitment" element={<AdminRecruitment />} />

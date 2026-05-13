@@ -90,12 +90,12 @@ const Footer = () => {
               transition={{ duration: 0.6, delay: 0.15 }}
               className="footer-column footer-gallery-column"
             >
-              <h4 className="footer-title">Galerie Photo</h4>
+              <h4 className="footer-title">Ressources</h4>
               <div className="footer-gallery-grid">
                 {galleryImages.map((image, index) => (
                   <Link
                     key={image.id || index}
-                    to="/gallery"
+                    to="/resources"
                     className="footer-gallery-item"
                   >
                     <img 

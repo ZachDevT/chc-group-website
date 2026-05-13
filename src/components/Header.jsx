@@ -21,7 +21,8 @@ import {
   FiInfo,
   FiMail,
   FiImage,
-  FiBook
+  FiBook,
+  FiFolder
 } from 'react-icons/fi'
 import './Header.css'
 
@@ -195,9 +196,9 @@ const Header = () => {
       icon: <FiBook />
     },
     {
-      label: 'Galerie',
-      link: '/gallery',
-      icon: <FiImage />
+      label: 'Ressources',
+      link: '/resources',
+      icon: <FiFolder />
     },
     {
       label: 'Équipe',

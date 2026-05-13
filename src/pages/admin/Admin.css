@@ -552,6 +552,86 @@
   border-radius: 16px;
 }
 
+.file-upload-container {
+  width: 100%;
+  padding: 20px;
+  border: 2px dashed var(--admin-border);
+  border-radius: 18px;
+  background: rgba(15, 144, 136, 0.02);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s ease;
+}
+
+.file-upload-container:hover {
+  background: rgba(15, 144, 136, 0.05);
+  border-color: #0f9088;
+}
+
+.admin-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.admin-choice-card {
+  border: 1px solid var(--admin-border);
+  border-radius: 18px;
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.7);
+  text-align: left;
+  display: grid;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #0f172a;
+}
+
+.admin-choice-card svg {
+  font-size: 1.25rem;
+  color: #0f9088;
+}
+
+.admin-choice-card span {
+  font-weight: 700;
+}
+
+.admin-choice-card small {
+  color: #64748b;
+}
+
+.admin-choice-card:hover,
+.admin-choice-card.active {
+  border-color: #0f9088;
+  background: rgba(15, 144, 136, 0.08);
+  box-shadow: 0 12px 28px rgba(15, 144, 136, 0.12);
+}
+
+.admin-helper-text {
+  font-size: 0.85rem;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+.admin-upload-summary {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(15, 144, 136, 0.08);
+  color: #0f172a;
+}
+
+.admin-upload-summary span {
+  color: #475569;
+  font-size: 0.9rem;
+}
+
 .admin-toast {
   position: fixed;
   bottom: 24px;
@@ -683,6 +763,10 @@
 }
 
 @media (max-width: 768px) {
+  .admin-choice-grid {
+    grid-template-columns: 1fr;
+  }
+
   .admin-form-row {
     grid-template-columns: 1fr;
   }
@@ -912,5 +996,4 @@
     font-size: 0.8rem;
   }
 }
-
 

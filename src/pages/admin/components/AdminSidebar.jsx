@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { FiGrid, FiEdit3, FiUsers, FiImage, FiShare2, FiSettings, FiTag, FiUser, FiBriefcase, FiMessageSquare } from 'react-icons/fi'
+import { FiGrid, FiEdit3, FiUsers, FiImage, FiShare2, FiSettings, FiTag, FiUser, FiBriefcase, FiMessageSquare, FiFileText } from 'react-icons/fi'
 import { useAuth } from '../../../context/AuthContext.jsx'
 
 const AdminSidebar = ({ onNavigate }) => {
@@ -12,7 +12,8 @@ const AdminSidebar = ({ onNavigate }) => {
     { to: '/admin/blog', label: 'Blog & Articles', icon: <FiEdit3 /> },
     { to: '/admin/categories', label: 'Catégories', icon: <FiTag /> },
     { to: '/admin/partners', label: 'Partenaires', icon: <FiShare2 /> },
-    { to: '/admin/gallery', label: 'Galerie', icon: <FiImage /> },
+    { to: '/admin/gallery', label: 'Galerie Photos', icon: <FiImage /> },
+    { to: '/admin/documents', label: 'Documents', icon: <FiFileText /> },
     { to: '/admin/team', label: 'Équipe', icon: <FiUser /> },
     { to: '/admin/testimonials', label: 'Témoignages', icon: <FiMessageSquare /> },
     ...(isHR ? [{ to: '/admin/recruitment', label: 'Recrutement', icon: <FiBriefcase /> }] : []),

@@ -24,6 +24,7 @@ import {
   FiBook,
   FiFolder
 } from 'react-icons/fi'
+import { FaFacebook, FaInstagram, FaLinkedin, FaWhatsapp } from 'react-icons/fa'
 import './Header.css'
 
 const Header = () => {
@@ -327,6 +328,20 @@ const Header = () => {
                   {item.label}
                 </Link>
               ))}
+              <div className="mobile-social">
+                <a href="https://www.facebook.com/share/1DAe4TC8H8/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                  <FaFacebook />
+                </a>
+                <a href="https://www.instagram.com/congo_horizon_challenges_?igsh=YjQ5OWg4aWxlMm93&utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                  <FaInstagram />
+                </a>
+                <a href="https://www.linkedin.com/company/congo-horizon-challenges-chc/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                  <FaLinkedin />
+                </a>
+                <a href="https://wa.me/243839529477" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                  <FaWhatsapp />
+                </a>
+              </div>
             </motion.nav>
           </>
         )}

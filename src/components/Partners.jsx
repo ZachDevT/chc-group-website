@@ -4,7 +4,7 @@ import './Partners.css'
 
 const fallbackPartners = [
   {
-    name: 'Action de Carême',
+    name: 'Misereor',
     logo: '/assets/patners/images.png'
   },
   {
@@ -12,18 +12,48 @@ const fallbackPartners = [
     logo: '/assets/patners/2019-EN-Interpeace.png'
   },
   {
-    name: 'Miseror',
+    name: 'Entraide et Fraternité',
     logo: '/assets/patners/1691496610226.png'
   },
   {
-    name: 'Entraide et Fraternité',
+    name: 'Action de Carême',
     logo: '/assets/patners/NEW-LOGO-ADC.png'
   }
 ]
 
+const partnerNameOverrides = [
+  { match: 'images.png', name: 'Misereor' },
+  { match: '2019-en-interpeace', name: 'Interpeace' },
+  { match: '1691496610226', name: 'Entraide et Fraternité' },
+  { match: 'new-logo-adc', name: 'Action de Carême' }
+]
+
+const normalizeText = (value, fallback) => {
+  if (typeof value !== 'string') return fallback
+  const trimmed = value.trim()
+  return trimmed || fallback
+}
+
+const normalizeWebsite = (value) => {
+  if (typeof value !== 'string') return ''
+  const trimmed = value.trim()
+  if (!trimmed) return ''
+  return /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`
+}
+
 const Partners = () => {
   const { data: partners, loading } = useRealtimeCollection('partners', { orderByField: 'createdAt' })
-  const displayPartners = partners.length ? partners : fallbackPartners
+  const sourcePartners = partners.length ? partners : fallbackPartners
+  const displayPartners = sourcePartners.map((partner, index) => {
+    const logo = typeof partner.logo === 'string' ? partner.logo.toLowerCase() : ''
+    const override = partnerNameOverrides.find((item) => logo.includes(item.match))
+
+    return {
+      ...partner,
+      displayName: override?.name || normalizeText(partner.name, `Partenaire ${index + 1}`),
+      websiteUrl: normalizeWebsite(partner.website)
+    }
+  })
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -80,14 +110,27 @@ const Partners = () => {
                 variants={itemVariants}
                 whileHover={{ y: -8, scale: 1.05 }}
               >
+                <span className="partner-chip">Organisation partenaire</span>
                 <div className="partner-logo-wrapper">
                   <img
                     src={partner.logo}
-                    alt={partner.name}
+                    alt={partner.displayName}
                     className="partner-logo"
                   />
                 </div>
-                <p className="partner-name">{partner.name}</p>
+                <p className="partner-name">{partner.displayName}</p>
+                {partner.websiteUrl ? (
+                  <a
+                    href={partner.websiteUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="partner-link"
+                  >
+                    Visiter le site
+                  </a>
+                ) : (
+                  <p className="partner-caption">Collaboration pour un impact durable</p>
+                )}
               </motion.div>
             ))}
           </motion.div>
@@ -98,7 +141,6 @@ const Partners = () => {
 }
 
 export default Partners
-
 
 
 

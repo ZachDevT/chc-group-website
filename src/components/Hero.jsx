@@ -50,7 +50,7 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
           >
-            <p className="hero-slogan">Ensemble pour forger notre horizon</p>
+            <p className="hero-slogan">Face aux défis du Congo</p>
           </motion.div>
 
           <motion.p

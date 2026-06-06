@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { FiPhone, FiMapPin, FiMail } from 'react-icons/fi'
+import { FaWhatsapp } from 'react-icons/fa'
 import './Contact.css'
 
 const Contact = () => {
@@ -60,6 +61,15 @@ const Contact = () => {
                 <h3 className="contact-label">Téléphone</h3>
                 <a href="tel:+243992150129" className="contact-value">
                   +243 992 150 129
+                </a>
+              </div>
+            </div>
+            <div className="contact-item">
+              <div className="contact-icon" style={{ backgroundColor: 'rgba(37, 211, 102, 0.1)', color: '#25d366' }}><FaWhatsapp /></div>
+              <div>
+                <h3 className="contact-label">WhatsApp</h3>
+                <a href="https://wa.me/243839529477" target="_blank" rel="noopener noreferrer" className="contact-value">
+                  +243 839 529 477
                 </a>
               </div>
             </div>

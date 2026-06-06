@@ -3,8 +3,8 @@ import { FaWhatsapp } from 'react-icons/fa'
 import './WhatsAppButton.css'
 
 const WhatsAppButton = () => {
-  // WhatsApp number - replace with your actual number in format: countrycode+number (no + sign)
-  const whatsappNumber = '243900000000' // Replace with your WhatsApp number
+  // WhatsApp number - format: countrycode+number (no + sign)
+  const whatsappNumber = '243839529477'
   const message = 'Bonjour, je souhaite en savoir plus sur CHC Group.'
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`
 

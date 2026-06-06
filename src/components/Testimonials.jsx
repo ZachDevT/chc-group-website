@@ -111,11 +111,7 @@ const Testimonials = () => {
               </div>
               <p className="testimonial-content">{testimonials[currentIndex].content}</p>
               <div className="testimonial-author">
-                <img
-                  src={testimonials[currentIndex].image}
-                  alt={testimonials[currentIndex].name}
-                  className="testimonial-avatar"
-                />
+
                 <div className="testimonial-info">
                   <h4 className="testimonial-name">{testimonials[currentIndex].name}</h4>
                   <p className="testimonial-role">{testimonials[currentIndex].role}</p>

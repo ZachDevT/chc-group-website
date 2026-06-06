@@ -341,3 +341,32 @@
 .mobile-nav-icon {
   font-size: 1.3rem;
 }
+
+.mobile-social {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 1px solid var(--border-color);
+}
+
+.mobile-social a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 1.25rem;
+  transition: var(--transition);
+  border: 1px solid var(--border-color);
+}
+
+.mobile-social a:hover {
+  background: var(--accent-color);
+  color: var(--text-light);
+  border-color: var(--accent-color);
+}

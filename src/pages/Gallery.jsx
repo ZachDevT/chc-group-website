@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiX, FiZoomIn } from 'react-icons/fi'
 import { useRealtimeCollection } from '../hooks/useRealtimeCollection.js'
@@ -16,6 +16,7 @@ const fallbackImages = [
 ]
 
 const resolveUrl = (item) => item.image || item.url
+const normalizeText = (value) => (typeof value === 'string' ? value.trim() : '')
 
 const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState(null)
@@ -24,13 +25,70 @@ const Gallery = () => {
 
   const images = remoteImages.length ? remoteImages : fallbackImages
 
-  const categories = useMemo(() => ['all', ...new Set(images.map((img) => img.category))], [images])
+  const preparedImages = useMemo(
+    () =>
+      images
+        .map((image, index) => {
+          const imageUrl = resolveUrl(image)
+          if (!imageUrl) return null
 
-  const filteredImages = filter === 'all' ? images : images.filter((img) => img.category === filter)
+          return {
+            ...image,
+            imageUrl,
+            categoryLabel: normalizeText(image.category) || 'Général',
+            titleLabel: normalizeText(image.title) || `Moment CHC ${index + 1}`,
+            descriptionLabel:
+              normalizeText(image.description) || 'Découvrez un temps fort capturé sur le terrain par CHC Group.'
+          }
+        })
+        .filter(Boolean),
+    [images]
+  )
+
+  const categories = useMemo(
+    () => ['all', ...new Set(preparedImages.map((image) => image.categoryLabel))],
+    [preparedImages]
+  )
+
+  const categoryCounts = useMemo(() => {
+    const counts = { all: preparedImages.length }
+
+    preparedImages.forEach((image) => {
+      counts[image.categoryLabel] = (counts[image.categoryLabel] || 0) + 1
+    })
+
+    return counts
+  }, [preparedImages])
+
+  const filteredImages =
+    filter === 'all'
+      ? preparedImages
+      : preparedImages.filter((image) => image.categoryLabel === filter)
+
+  const activeFilterLabel = filter === 'all' ? 'Toutes les catégories' : filter
+
+  useEffect(() => {
+    if (!selectedImage) return undefined
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setSelectedImage(null)
+      }
+    }
+
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [selectedImage])
 
   return (
     <div className="gallery-page">
-      <motion.section 
+      <motion.section
         className="gallery-hero"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -49,43 +107,68 @@ const Gallery = () => {
       <section className="gallery-content">
         <div className="container">
           {loading && <div className="gallery-loading">Chargement des médias...</div>}
-          <div className="gallery-filters">
-            {categories.map(category => (
-              <button
-                key={category}
-                className={`filter-btn ${filter === category ? 'active' : ''}`}
-                onClick={() => setFilter(category)}
-              >
-                {category === 'all' ? 'Tous' : category}
-              </button>
-            ))}
+
+          <div className="gallery-toolbar">
+            <div className="gallery-summary">
+              <p className="gallery-summary-label">
+                {filteredImages.length} média{filteredImages.length > 1 ? 's' : ''}
+              </p>
+              <p className="gallery-summary-meta">{activeFilterLabel}</p>
+            </div>
+
+            <div className="gallery-filters" aria-label="Filtres de la galerie">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  type="button"
+                  className={`filter-btn ${filter === category ? 'active' : ''}`}
+                  onClick={() => setFilter(category)}
+                  aria-pressed={filter === category}
+                  title={`Afficher ${categoryCounts[category] || 0} média${(categoryCounts[category] || 0) > 1 ? 's' : ''}`}
+                >
+                  {category === 'all' ? 'Tous' : category}
+                  <span>{categoryCounts[category] || 0}</span>
+                </button>
+              ))}
+            </div>
           </div>
 
-          <motion.div
-            layout
-            className="gallery-grid"
-          >
+          <motion.div layout className="gallery-grid">
             <AnimatePresence>
               {filteredImages.map((image, index) => (
-                <motion.div
-                  key={image.id}
+                <motion.button
+                  key={image.id || image.imageUrl}
                   layout
+                  type="button"
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.8 }}
                   transition={{ duration: 0.3, delay: index * 0.05 }}
                   className="gallery-item"
                   onClick={() => setSelectedImage(image)}
+                  aria-label={`Ouvrir l'image ${image.titleLabel}`}
                 >
-                  <img src={resolveUrl(image)} alt={image.title} />
-                  <div className="gallery-overlay">
-                    <FiZoomIn />
-                    <p>{image.title}</p>
+                  <div className="gallery-media">
+                    <img src={image.imageUrl} alt={image.titleLabel} />
+                    <div className="gallery-overlay">
+                      <FiZoomIn />
+                    </div>
                   </div>
-                </motion.div>
+                  <div className="gallery-item-content">
+                    <span className="gallery-item-category">{image.categoryLabel}</span>
+                    <p className="gallery-item-title">{image.titleLabel}</p>
+                    <p className="gallery-item-description">{image.descriptionLabel}</p>
+                  </div>
+                </motion.button>
               ))}
             </AnimatePresence>
           </motion.div>
+
+          {!filteredImages.length && !loading && (
+            <div className="gallery-loading gallery-empty-state">
+              Aucun média trouvé pour ce filtre.
+            </div>
+          )}
         </div>
       </section>
 
@@ -98,18 +181,34 @@ const Gallery = () => {
             className="gallery-modal"
             onClick={() => setSelectedImage(null)}
           >
-            <button className="gallery-modal-close" onClick={() => setSelectedImage(null)}>
-              <FiX />
-            </button>
-            <motion.img
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
-              src={resolveUrl(selectedImage)}
-              alt={selectedImage.title}
-              onClick={(e) => e.stopPropagation()}
-            />
-            <p className="gallery-modal-title">{selectedImage.title}</p>
+            <motion.div
+              className="gallery-modal-panel"
+              initial={{ scale: 0.92, opacity: 0.9 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.92, opacity: 0.9 }}
+              onClick={(event) => event.stopPropagation()}
+            >
+              <button
+                type="button"
+                className="gallery-modal-close"
+                onClick={() => setSelectedImage(null)}
+                aria-label="Fermer l'aperçu"
+              >
+                <FiX />
+              </button>
+              <motion.img
+                initial={{ scale: 0.94 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0.94 }}
+                src={selectedImage.imageUrl}
+                alt={selectedImage.titleLabel}
+              />
+              <div className="gallery-modal-caption">
+                <span className="gallery-modal-category">{selectedImage.categoryLabel}</span>
+                <p className="gallery-modal-title">{selectedImage.titleLabel}</p>
+                <p className="gallery-modal-description">{selectedImage.descriptionLabel}</p>
+              </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -118,5 +217,3 @@ const Gallery = () => {
 }
 
 export default Gallery
-
-

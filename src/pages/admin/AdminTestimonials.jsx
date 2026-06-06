@@ -1,28 +1,25 @@
 import { useState, useEffect } from 'react'
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, orderBy, query } from 'firebase/firestore'
-import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage'
-import { db, storage } from '../../firebase/config'
-import imageCompression from 'browser-image-compression'
-import { motion } from 'framer-motion'
-import { FiPlus, FiEdit2, FiTrash2, FiSave, FiX, FiUpload } from 'react-icons/fi'
+import { db } from '../../firebase/config'
+import { motion, AnimatePresence } from 'framer-motion'
+import { FiPlus, FiEdit2, FiTrash2, FiSave, FiX, FiCheck } from 'react-icons/fi'
 import '../admin/Admin.css'
 
 const AdminTestimonials = () => {
     const [testimonials, setTestimonials] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
+    const [successMsg, setSuccessMsg] = useState('')
     const [editingId, setEditingId] = useState(null)
     const [showForm, setShowForm] = useState(false)
-    const [uploading, setUploading] = useState(false)
+    const [submitting, setSubmitting] = useState(false)
+
     const [formData, setFormData] = useState({
         name: '',
         role: '',
         content: '',
-        image: '',
         order: 0
     })
-    const [imageFile, setImageFile] = useState(null)
-    const [imagePreview, setImagePreview] = useState('')
 
     useEffect(() => {
         fetchTestimonials()
@@ -41,80 +38,48 @@ const AdminTestimonials = () => {
             setError('')
         } catch (err) {
             console.error('Error fetching testimonials:', err)
-            setError('Erreur lors du chargement des témoignages')
+            setError('Erreur lors du chargement des témoignages. Vérifiez vos permissions.')
         } finally {
             setLoading(false)
         }
     }
 
-    const handleImageChange = (e) => {
-        const file = e.target.files[0]
-        if (file) {
-            setImageFile(file)
-            const reader = new FileReader()
-            reader.onloadend = () => {
-                setImagePreview(reader.result)
-            }
-            reader.readAsDataURL(file)
-        }
-    }
-
-    const uploadImage = async (file) => {
-        const options = {
-            maxSizeMB: 1,
-            maxWidthOrHeight: 800,
-            useWebWorker: true
-        }
-
-        try {
-            const compressedFile = await imageCompression(file, options)
-            const storageRef = ref(storage, `testimonials/${Date.now()}_${file.name}`)
-            await uploadBytes(storageRef, compressedFile)
-            const downloadURL = await getDownloadURL(storageRef)
-            return downloadURL
-        } catch (error) {
-            console.error('Error uploading image:', error)
-            throw error
-        }
-    }
-
     const handleSubmit = async (e) => {
         e.preventDefault()
-        setUploading(true)
+        setSubmitting(true)
         setError('')
+        setSuccessMsg('')
 
         try {
-            let imageURL = formData.image
-
-            if (imageFile) {
-                imageURL = await uploadImage(imageFile)
-            }
-
             const testimonialData = {
                 name: formData.name,
                 role: formData.role,
                 content: formData.content,
-                image: imageURL,
                 order: parseInt(formData.order) || 0,
                 updatedAt: serverTimestamp()
             }
 
             if (editingId) {
                 await updateDoc(doc(db, 'testimonials', editingId), testimonialData)
+                setSuccessMsg('Témoignage mis à jour avec succès')
             } else {
                 await addDoc(collection(db, 'testimonials'), {
                     ...testimonialData,
                     createdAt: serverTimestamp()
                 })
+                setSuccessMsg('Témoignage créé avec succès')
             }
 
             resetForm()
             fetchTestimonials()
+
+            // Clear success message after 3 seconds
+            setTimeout(() => setSuccessMsg(''), 3000)
         } catch (err) {
             console.error('Error saving testimonial:', err)
             setError('Erreur lors de l\'enregistrement du témoignage')
         } finally {
-            setUploading(false)
+            setSubmitting(false)
         }
     }
 
@@ -123,32 +88,21 @@ const AdminTestimonials = () => {
             name: testimonial.name,
             role: testimonial.role,
             content: testimonial.content,
-            image: testimonial.image,
             order: testimonial.order || 0
         })
-        setImagePreview(testimonial.image)
         setEditingId(testimonial.id)
         setShowForm(true)
+        window.scrollTo({ top: 0, behavior: 'smooth' })
     }
 
-    const handleDelete = async (id, imageURL) => {
-        if (!confirm('Êtes-vous sûr de vouloir supprimer ce témoignage?')) return
+    const handleDelete = async (id) => {
+        if (!window.confirm('Êtes-vous sûr de vouloir supprimer ce témoignage?')) return
 
         try {
-            // Delete from Firestore
             await deleteDoc(doc(db, 'testimonials', id))
-
-            // Delete image from Storage if it exists
-            if (imageURL && imageURL.includes('firebase')) {
-                try {
-                    const imageRef = ref(storage, imageURL)
-                    await deleteObject(imageRef)
-                } catch (err) {
-                    console.error('Error deleting image:', err)
-                }
-            }
-
+            setSuccessMsg('Témoignage supprimé')
             fetchTestimonials()
+            setTimeout(() => setSuccessMsg(''), 3000)
         } catch (err) {
             console.error('Error deleting testimonial:', err)
             setError('Erreur lors de la suppression du témoignage')
@@ -160,11 +114,8 @@ const AdminTestimonials = () => {
             name: '',
             role: '',
             content: '',
-            image: '',
             order: 0
         })
-        setImageFile(null)
-        setImagePreview('')
         setEditingId(null)
         setShowForm(false)
     }
@@ -172,149 +123,156 @@ const AdminTestimonials = () => {
     return (
         <div className="admin-page">
             <div className="admin-header">
-                <h1>Gestion des Témoignages</h1>
+                <div>
+                    <h1>Gestion des Témoignages</h1>
+                    <p className="subtitle">Gérez les avis de vos partenaires</p>
+                </div>
                 <button
-                    className="btn btn-primary"
-                    onClick={() => setShowForm(!showForm)}
+                    className={`btn ${showForm ? 'btn-secondary' : 'btn-primary'}`}
+                    onClick={() => {
+                        if (showForm) resetForm();
+                        else setShowForm(true);
+                    }}
                 >
                     {showForm ? <><FiX /> Annuler</> : <><FiPlus /> Nouveau Témoignage</>}
                 </button>
             </div>
 
-            {error && <div className="alert alert-error">{error}</div>}
+            <AnimatePresence>
+                {error && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0 }}
+                        className="alert alert-error"
+                    >
+                        {error}
+                    </motion.div>
+                )}
+                {successMsg && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0 }}
+                        className="alert alert-success"
+                    >
+                        <FiCheck /> {successMsg}
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
-            {showForm && (
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="admin-form-card"
-                >
-                    <h2>{editingId ? 'Modifier le Témoignage' : 'Nouveau Témoignage'}</h2>
-                    <form onSubmit={handleSubmit}>
-                        <div className="form-row">
-                            <div className="form-group">
-                                <label>Nom *</label>
-                                <input
-                                    type="text"
-                                    value={formData.name}
-                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                    required
-                                    placeholder="Nom complet"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Fonction/Titre *</label>
-                                <input
-                                    type="text"
-                                    value={formData.role}
-                                    onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                                    required
-                                    placeholder="Ex: Directeur, Organisation Partenaire"
-                                />
-                            </div>
-                        </div>
-
-                        <div className="form-group">
-                            <label>Témoignage *</label>
-                            <textarea
-                                value={formData.content}
-                                onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                                required
-                                rows="4"
-                                placeholder="Contenu du témoignage..."
-                            />
-                        </div>
-
-                        <div className="form-row">
-                            <div className="form-group">
-                                <label>Ordre d'affichage</label>
-                                <input
-                                    type="number"
-                                    value={formData.order}
-                                    onChange={(e) => setFormData({ ...formData, order: e.target.value })}
-                                    placeholder="0"
-                                    min="0"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Photo de profil</label>
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleImageChange}
-                                />
-                                {imagePreview && (
-                                    <div className="image-preview">
-                                        <img src={imagePreview} alt="Preview" />
+            <AnimatePresence>
+                {showForm && (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="admin-form-container"
+                    >
+                        <div className="admin-form-card">
+                            <h2>{editingId ? 'Modifier le Témoignage' : 'Nouveau Témoignage'}</h2>
+                            <form onSubmit={handleSubmit}>
+                                <div className="form-grid">
+                                    <div className="form-group">
+                                        <label>Nom du partenaire *</label>
+                                        <input
+                                            type="text"
+                                            value={formData.name}
+                                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                            required
+                                            placeholder="Ex: Dr. Jean Mukamba"
+                                            className="form-input"
+                                        />
                                     </div>
-                                )}
-                            </div>
-                        </div>
+                                    <div className="form-group">
+                                        <label>Fonction / Role *</label>
+                                        <input
+                                            type="text"
+                                            value={formData.role}
+                                            onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                                            required
+                                            placeholder="Ex: Directeur Général"
+                                            className="form-input"
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Ordre d'affichage</label>
+                                        <input
+                                            type="number"
+                                            value={formData.order}
+                                            onChange={(e) => setFormData({ ...formData, order: e.target.value })}
+                                            placeholder="0"
+                                            className="form-input"
+                                        />
+                                    </div>
+                                </div>
 
-                        <div className="form-actions">
-                            <button
-                                type="button"
-                                className="btn btn-secondary"
-                                onClick={resetForm}
-                            >
-                                <FiX /> Annuler
-                            </button>
-                            <button
-                                type="submit"
-                                className="btn btn-primary"
-                                disabled={uploading}
-                            >
-                                {uploading ? (
-                                    'Enregistrement...'
-                                ) : (
-                                    <><FiSave /> {editingId ? 'Mettre à jour' : 'Créer'}</>
-                                )}
-                            </button>
-                        </div>
-                    </form>
-                </motion.div>
-            )}
+                                <div className="form-group full-width">
+                                    <label>Contenu du témoignage *</label>
+                                    <textarea
+                                        value={formData.content}
+                                        onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+                                        required
+                                        rows="4"
+                                        placeholder="Le texte du témoignage..."
+                                        className="form-textarea"
+                                    />
+                                </div>
 
-            {loading ? (
-                <div className="admin-loading">Chargement des témoignages...</div>
-            ) : (
-                <div className="admin-table-container">
+                                <div className="form-actions">
+                                    <button
+                                        type="button"
+                                        className="btn btn-secondary"
+                                        onClick={resetForm}
+                                    >
+                                        Annuler
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="btn btn-primary"
+                                        disabled={submitting}
+                                    >
+                                        {submitting ? 'Enregistrement...' : <><FiSave /> {editingId ? 'Mettre à jour' : 'Enregistrer'}</>}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            <div className="admin-table-container">
+                {loading ? (
+                    <div className="loading-state">Chargement...</div>
+                ) : (
                     <table className="admin-table">
                         <thead>
                             <tr>
-                                <th>Photo</th>
-                                <th>Nom</th>
-                                <th>Fonction</th>
-                                <th>Témoignage</th>
-                                <th>Ordre</th>
-                                <th>Actions</th>
+                                <th style={{ width: '20%' }}>Nom</th>
+                                <th style={{ width: '20%' }}>Role</th>
+                                <th style={{ width: '40%' }}>Témoignage</th>
+                                <th style={{ width: '10%' }}>Ordre</th>
+                                <th style={{ width: '10%' }} className="text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {testimonials.length === 0 ? (
                                 <tr>
-                                    <td colSpan="6" className="text-center">
-                                        Aucun témoignage trouvé
+                                    <td colSpan="5" className="text-center empty-state">
+                                        Aucun témoignage enregistré
                                     </td>
                                 </tr>
                             ) : (
                                 testimonials.map((testimonial) => (
                                     <tr key={testimonial.id}>
-                                        <td>
-                                            {testimonial.image && (
-                                                <img
-                                                    src={testimonial.image}
-                                                    alt={testimonial.name}
-                                                    className="table-image"
-                                                />
-                                            )}
+                                        <td className="font-medium">{testimonial.name}</td>
+                                        <td className="text-muted">{testimonial.role}</td>
+                                        <td className="text-truncate" title={testimonial.content}>
+                                            {testimonial.content}
                                         </td>
-                                        <td>{testimonial.name}</td>
-                                        <td>{testimonial.role}</td>
-                                        <td className="text-truncate">{testimonial.content}</td>
                                         <td>{testimonial.order}</td>
                                         <td>
-                                            <div className="table-actions">
+                                            <div className="table-actions justify-end">
                                                 <button
                                                     className="btn-icon btn-edit"
                                                     onClick={() => handleEdit(testimonial)}
@@ -324,7 +282,7 @@ const AdminTestimonials = () => {
                                                 </button>
                                                 <button
                                                     className="btn-icon btn-delete"
-                                                    onClick={() => handleDelete(testimonial.id, testimonial.image)}
+                                                    onClick={() => handleDelete(testimonial.id)}
                                                     title="Supprimer"
                                                 >
                                                     <FiTrash2 />
@@ -336,8 +294,8 @@ const AdminTestimonials = () => {
                             )}
                         </tbody>
                     </table>
-                </div>
-            )}
+                )}
+            </div>
         </div>
     )
 }

@@ -12,6 +12,10 @@ const formatDate = (timestamp) => {
   return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
 }
 
+const normalizeText = (value) => (typeof value === 'string' ? value.trim() : '')
+
+const normalizeCategoryLabel = (value) => normalizeText(value) || 'Général'
+
 const Blog = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const [selectedCategory, setSelectedCategory] = useState('all')
@@ -26,28 +30,57 @@ const Blog = () => {
     }
   }, [searchParams])
 
+  const preparedArticles = useMemo(
+    () =>
+      articles.map((article, index) => ({
+        ...article,
+        titleLabel: normalizeText(article.title) || `Article ${index + 1}`,
+        excerptLabel:
+          normalizeText(article.excerpt) ||
+          'Découvrez bientôt le résumé de cette publication réalisée par CHC Group.',
+        authorLabel: normalizeText(article.authorName || article.author) || 'Équipe CHC',
+        categoryLabel: normalizeCategoryLabel(article.category),
+        imageUrl: article.coverImage || article.image || '/assets/OneDrive_1_19-11-2025/IMG_4045.JPG'
+      })),
+    [articles]
+  )
+
   const categories = useMemo(() => {
-    const unique = new Set(articles.map((article) => article.category))
+    const unique = new Set(preparedArticles.map((article) => article.categoryLabel))
     return ['all', ...unique]
-  }, [articles])
+  }, [preparedArticles])
+
+  const categoryCounts = useMemo(() => {
+    const counts = { all: preparedArticles.length }
+
+    preparedArticles.forEach((article) => {
+      counts[article.categoryLabel] = (counts[article.categoryLabel] || 0) + 1
+    })
+
+    return counts
+  }, [preparedArticles])
 
   const filteredArticles = useMemo(() => {
-    let filtered = selectedCategory === 'all' ? articles : articles.filter((article) => article.category === selectedCategory)
-    
+    let filtered =
+      selectedCategory === 'all'
+        ? preparedArticles
+        : preparedArticles.filter((article) => article.categoryLabel === selectedCategory)
+
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase()
-      filtered = filtered.filter((article) => 
-        article.title?.toLowerCase().includes(query) ||
-        article.excerpt?.toLowerCase().includes(query) ||
-        article.content?.toLowerCase().includes(query) ||
-        article.category?.toLowerCase().includes(query) ||
-        article.authorName?.toLowerCase().includes(query) ||
-        article.author?.toLowerCase().includes(query)
+      filtered = filtered.filter((article) =>
+        article.titleLabel.toLowerCase().includes(query) ||
+        article.excerptLabel.toLowerCase().includes(query) ||
+        normalizeText(article.content).toLowerCase().includes(query) ||
+        article.categoryLabel.toLowerCase().includes(query) ||
+        article.authorLabel.toLowerCase().includes(query)
       )
     }
-    
+
     return filtered
-  }, [articles, selectedCategory, searchQuery])
+  }, [preparedArticles, selectedCategory, searchQuery])
+
+  const activeFilterLabel = selectedCategory === 'all' ? 'Toutes les catégories' : selectedCategory
 
   return (
     <div className="blog-page">
@@ -55,7 +88,7 @@ const Blog = () => {
         title="Blog & Actualités"
         description="Découvrez nos dernières actualités, articles de recherche et retours d'expérience sur le développement durable, la gestion de projets, la coopération internationale et bien plus."
       />
-      <motion.section 
+      <motion.section
         className="blog-hero"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -77,49 +110,67 @@ const Blog = () => {
 
           {!loading && (
             <>
-              <div className="blog-search-container">
-                {showSearch && (
-                  <div className="blog-search-box">
-                    <FiSearch className="search-icon" />
-                    <input
-                      type="text"
-                      placeholder="Rechercher un article..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="blog-search-input"
-                      autoFocus
-                    />
-                    <button 
-                      className="blog-search-close"
-                      onClick={() => {
-                        setShowSearch(false)
-                        setSearchQuery('')
-                        setSearchParams({})
-                      }}
-                      aria-label="Fermer la recherche"
+              <div className="blog-toolbar">
+                <div className="blog-search-container">
+                  {showSearch ? (
+                    <div className="blog-search-box">
+                      <FiSearch className="search-icon" />
+                      <input
+                        type="text"
+                        placeholder="Rechercher un article..."
+                        value={searchQuery}
+                        onChange={(event) => setSearchQuery(event.target.value)}
+                        className="blog-search-input"
+                        autoFocus
+                      />
+                      <button
+                        type="button"
+                        className="blog-search-close"
+                        onClick={() => {
+                          setShowSearch(false)
+                          setSearchQuery('')
+                          setSearchParams({})
+                        }}
+                        aria-label="Fermer la recherche"
+                      >
+                        <FiX />
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      className="blog-search-toggle"
+                      onClick={() => setShowSearch(true)}
                     >
-                      <FiX />
+                      <FiSearch /> Rechercher
                     </button>
-                  </div>
-                )}
-                {!showSearch && (
-                  <button 
-                    className="blog-search-toggle"
-                    onClick={() => setShowSearch(true)}
-                  >
-                    <FiSearch /> Rechercher
-                  </button>
-                )}
+                  )}
+                </div>
+
+                <div className="blog-results-bar">
+                  <p className="blog-results-label">
+                    {filteredArticles.length} article{filteredArticles.length > 1 ? 's' : ''}
+                  </p>
+                  <p className="blog-results-meta">
+                    {searchQuery.trim()
+                      ? `Résultats pour "${searchQuery.trim()}"`
+                      : activeFilterLabel}
+                  </p>
+                </div>
               </div>
 
-              <div className="blog-filters">
+              <div className="blog-filters" aria-label="Filtres du blog">
                 {categories.map((category) => (
                   <button
                     key={category}
+                    type="button"
                     className={`filter-btn ${selectedCategory === category ? 'active' : ''}`}
                     onClick={() => setSelectedCategory(category)}
+                    aria-pressed={selectedCategory === category}
+                    title={`Afficher ${categoryCounts[category] || 0} article${(categoryCounts[category] || 0) > 1 ? 's' : ''}`}
                   >
                     {category === 'all' ? 'Tous' : category}
+                    <span>{categoryCounts[category] || 0}</span>
                   </button>
                 ))}
               </div>
@@ -136,17 +187,17 @@ const Blog = () => {
                   >
                     <Link to={`/blog/${article.slug}`} className="blog-card-link">
                       <div className="blog-card-image">
-                        <img src={article.coverImage || article.image} alt={article.title} />
+                        <img src={article.imageUrl} alt={article.titleLabel} />
                         <div className="blog-card-category">
-                          <FiTag /> {article.category}
+                          <FiTag /> {article.categoryLabel}
                         </div>
                       </div>
                       <div className="blog-card-content">
-                        <h2 className="blog-card-title">{article.title}</h2>
-                        <p className="blog-card-excerpt">{article.excerpt}</p>
+                        <h2 className="blog-card-title">{article.titleLabel}</h2>
+                        <p className="blog-card-excerpt">{article.excerptLabel}</p>
                         <div className="blog-card-meta">
                           <span>
-                            <FiUser /> {article.authorName || article.author}
+                            <FiUser /> {article.authorLabel}
                           </span>
                           <span>
                             <FiCalendar /> {formatDate(article.createdAt)}{' '}
@@ -161,7 +212,7 @@ const Blog = () => {
                 ))}
                 {!filteredArticles.length && (
                   <div className="blog-empty-state" style={{ gridColumn: '1/-1' }}>
-                    Aucune publication pour cette catégorie.
+                    Aucune publication trouvée pour ce filtre.
                   </div>
                 )}
               </motion.div>
@@ -174,5 +225,3 @@ const Blog = () => {
 }
 
 export default Blog
-
-

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { FiPhone, FiMapPin, FiMail, FiWatch } from 'react-icons/fi'
+import { FaWhatsapp } from 'react-icons/fa'
 import Contact from '../components/Contact'
 import './Contact.css'
 
@@ -38,6 +39,18 @@ const ContactPage = () => {
               <h3>Téléphone</h3>
               <p>+243 992 150 129</p>
               <p>Lun - Ven: 8h00 - 18h00</p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.05 }}
+              className="contact-info-card"
+            >
+              <div className="contact-info-icon" style={{ background: 'rgba(37, 211, 102, 0.1)', color: '#25d366' }}><FaWhatsapp /></div>
+              <h3>WhatsApp</h3>
+              <p><a href="https://wa.me/243839529477" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>+243 839 529 477</a></p>
+              <p>Réponse rapide</p>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 30 }}
